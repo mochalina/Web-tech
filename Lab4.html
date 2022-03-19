@@ -1,0 +1,36 @@
+<html> <head> 
+<meta charset="utf-8" />
+    <title>if</title> 
+</head> 
+<body> 
+    <script language="JavaScript" type="text/JavaScript">        
+        var x, y;        
+        x=parseInt(prompt("Введите значение х",''));        
+        y=parseInt(prompt("Введите значение у",''));        
+        if(x<y) {                    
+        alert("Максимальное число - y")        
+    }        
+        else if (x === y) {                    
+        alert("Числа равны!")        
+    }        
+    else {                    
+    alert('Максимальное число - x = ')        
+} 
+</script> 
+        <label for="password" alt="Пароль: 1234"> Введите пароль: </label> 
+        <input id="pass" name="password" type=password> 
+        <button onclick="checkpass()"> Войти </button> 
+        <script language="JavaScript" type="text/JavaScript">        
+    function checkpass() {                    
+        var password = "1234";                    
+        var usr_password = document.getElementById("pass").value;                    
+    if (password == usr_password) {                               
+        alert("Пароль верный.");                    
+    }                    
+    else {                               
+        alert("Пароль не верный.");                    
+    }        
+} 
+</script> 
+</body> 
+</html>

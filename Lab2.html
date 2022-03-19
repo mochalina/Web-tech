@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+      
+    <script type="text/javascript" src="main.js"></script> 
+</head>
+<body>
+    <p> Абзац 1-ый </p>
+   
+    <script>
+        document.getElementsByTagName("p")[0]
+            .insertAdjacentHTML("afterend", "<form><label>Добро пожаловать!</label><input type='button' value='OK'></form>");
+       var form = document.forms[0];
+       form.addEventListener("click", message_2);
+     </script> 
+     <p> Абзац 2-oй </p>
+</body>
+</html>
