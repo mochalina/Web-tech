@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Задание 7</title>
+</head>
+<style>
+  #buttons {
+    width: 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .button {
+    height: 30px;
+  }
+
+  .zero {
+    grid-column: 1/4;
+  }
+
+
+  #input {
+    width: 200px;
+    padding-right: 10px;
+    font-size: 3em;
+    text-align: right;
+    height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: black;
+    border: 1px solid black;
+  }
+</style>
+
+
+<body>
+  <div align="center" class="main">
+    <div align="center" class="calc">
+      <input type="text" id="input">
+      <div id='buttons'>
+        <input type="button" value="C" class="button clear">
+        <input type="button" value="<" class="button remove">
+        <input type="button" value="/" class="button button-operator">
+        <input type="button" value="*" class="button button-operator">
+
+        <input type="button" value="7" class="button  button-num">
+        <input type="button" value="8" class="button button-num">
+        <input type="button" value="9" class="button  button-num">
+        <input type="button" value="-" class="button button-operator">
+
+        <input type="button" value="4" class="button button-num">
+        <input type="button" value="5" class="button button-num">
+        <input type="button" value="6" class="button button-num">
+        <input type="button" value="+" class="button button-operator">
+
+        <input type="button" value="1" class="button button-num">
+        <input type="button" value="2" class="button button-num">
+        <input type="button" value="3" class="button button-num">
+        <input type="button" value="=" class="button equal">
+        <input type="button" value="0" class="button button-num zero">
+        <input type="button" value="." class="button button-num ">
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="jquery-3.4.0.js"></script>
+<script>
+  $(".equal").click(
+    function () {
+      try {
+        if ($("#input").val()) {
+          $("#input").val(eval($("#input").val()))
+        } else {
+          return false
+        }
+      } catch (error) {
+        alert("Введите валидные значения")
+      }
+    })
+
+  $(".button-operator").click(function (item) {
+    $("#input").val($("#input").val() + item.target.value)
+  })
+
+
+  $(".button-num").click(function (item) {
+    $("#input").val($("#input").val() + item.target.value)
+  })
+
+  $(".clear").click(function () {
+    $("#input").val('')
+  })
+
+  $(".remove").click(function () {
+    $("#input").val($("#input").val().substring(0, $("#input").val().length - 1))
+  })
+</script>
+
+</html>
