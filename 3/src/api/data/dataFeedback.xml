@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <id>1</id>
+        <name>Некит</name>
+        <email>nekiiiit@mail.ru</email>
+        <rate>3</rate>
+        <value>
+           Подвисает
+        </value>
+    </item>
+    <item>
+        <id>2</id>
+        <name>Саня</name>
+        <email>sanySD@mail.ru</email>         <rate>3</rate> 
+        <value>Дизайн - говно</value>
+    </item>
+    <item>
+        <id>3</id>
+        <name>Валя</name>
+        <email>valy@yandex.ru</email>         <rate>5</rate>
+        <value>Так легко учиться</value>
+    </item>
+    <item>
+        <id>4</id>
+        <name>Шамик</name>
+        <email>ableevss@gmail.com</email>                 <rate>5</rate>
+        <value>Алкоголь - фу! Сигареты - фу! Парень, посмотри на мою эстетику.</value>
+    </item>
+    <item>
+        <id>5</id>
+        <name>Игорёк</name>
+        <email>gayclub@gmail.com</email>                 <rate>5</rate>
+        <value>Я всё виииидел</value>
+    </item>
+    <item>
+        <id>6</id>
+        <name>аскар</name>
+        <email>nasr@mail.ru</email>                 <rate>5</rate>
+        <value>
+            С опытом приходит мастерство. © Геральт из Ривии
+        </value>
+    </item>
+</items>
