@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<title>ЖД билеты</title>
+	<link href="jquery-ui.css" rel="stylesheet">
+	<style>
+	body{
+		font-family: "Trebuchet MS", sans-serif;
+		margin: 50px;
+    	background-image: url("https://krot.info/uploads/posts/2021-01/1610153543_10-p-rzhd-fon-dlya-prezentatsii-19.jpg");
+	}
+	mark {
+    background-color: red;
+    color: white;
+}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#modal_form {
+	width: 300px; 
+	height: 300px; /* Рaзмеры дoлжны быть фиксирoвaны */
+	border-radius: 5px;
+	border: 3px #000 solid;
+	background: #fff;
+	position: fixed; /* чтoбы oкнo былo в видимoй зoне в любoм месте */
+	top: 45%; /* oтступaем сверху 45%, oстaльные 5% пoдвинет скрипт */
+	left: 50%; /* пoлoвинa экрaнa слевa */
+	margin-top: -150px;
+	margin-left: -150px; /* тут вся мaгия центрoвки css, oтступaем влевo и вверх минус пoлoвину ширины и высoты сooтветственнo =) */
+	display: none; /* в oбычнoм сoстoянии oкнa не дoлжнo быть */
+	opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
+	z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
+	padding: 20px 10px;
+}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	.ui-textfield {
+    font: inherit;
+    color: inherit;
+    background: none;
+    text-align: inherit;
+    outline: none;
+    cursor: text;	
+	}
+	
+	select {
+		width: 200px;
+	}
+	TD.leftcol {
+    width: 110px;
+    vertical-align: middle;
+    }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    #header {
+	height: 300px;
+	margin-bottom: 15px;
+	background-image: url("https://cdni.rt.com/files/2018.02/article/5a741406fc7e9376378b4568.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+	#header .pages {
+		list-style-type: none;
+		height: 39px;
+		padding-top: 3px;
+		float: left;
+	}
+		#header .pages li {
+			float: left;
+		}
+		#header .pages li a {
+			display: block;
+			font-size: 0.9em;
+			font-weight: bold;
+			color: white;
+			text-transform: uppercase;
+			padding: 12px 15px;
+			text-decoration: none;
+		}
+		#header .pages li a:hover {
+			text-decoration: underline;
+		}
+	#header form {
+		width: 245px; height: 26px;
+		background: url(images/search.gif) no-repeat 0 8px;
+		float: right;
+		padding: 8px 30px 0 0;
+	}
+		#header form input {
+			border: 0;
+			float: left;
+			width: 170px;
+			margin: 5px;
+		}
+		#header form button {
+			border: 0;
+			text-indent: -9999px;
+			font-size: 0;
+			width: 60px; height: 26px;
+			float: right;
+			background-color: transparent;
+		}
+	#header .logo {
+		clear: both;
+		float: left;
+		padding: 30px 0 36px 20px;
+		
+	}
+		#header .logo h1 {
+			font-size: 2em;
+			text-transform: uppercase;
+		}
+			#header .logo h1 a {
+				text-decoration: none;
+			}
+		#header .logo p {
+			color: #888888;
+			font-weight: bold;
+			font-size: 1.2em;
+			text-transform: uppercase;
+		}
+	#header .sponsor {
+		float: right;
+		padding: 25px 0;
+	}
+	#header .categories {
+		clear: both;
+		list-style-type: none;
+		height: 40px;
+		border-bottom: 5px solid #003366;
+		border-top: 1px solid #DDDDDD;
+		overflow: hidden;
+	}
+		#header .categories li {
+			float: left;
+		}
+		#header .categories li a {
+			display: block;
+			padding: 13px;
+			color: #333333;
+			border-right: 1px solid #dddddd;
+			text-decoration: none;
+		}
+		#header .categories li a:hover {
+			background-color: #003366;
+			color: #ffffff;
+		}
+	</style>
+</head>
+<body>
+<div id="header">
+    <ul class="pages">
+      <li><a href="https://www.rzd.ru/">Главная</a></li>
+      <li><a href="https://company.rzd.ru/">О нас</a></li>
+    </ul>
+    <div class="logo">
+    <h2><img style="border-radius: 50%;" src="https://www.susu.ru/sites/default/files/field/image/rjd.png" width="100" height="100">
+    <strong style="color: white;">     Мы <mark>меняемся</mark> для вас</strong></h2>
+    </div>
+  </div>
+
+<h3 align="center" class="demoHeaders">Расписание</h3>
+<div id="accordion">
+	<h3>Уфа - Магнитогорск</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"  align="left"><h2>05:05</h2>Уфа</td>
+			<td class="leftcol"  align="left"><h2>14:00</h2>Магнитогорск</td>
+			<td class="leftcol">8 ч 55 м</td>
+			<td class="leftcol"><img src="https://thumbs.dreamstime.com/b/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80-%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D0%B0-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D1%80%D0%B8%D1%81%D1%83%D0%BD%D0%BE%D0%BA-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D1%8B-164887379.jpg" width="40" height="40"><img src="https://st.depositphotos.com/62933612/54687/v/600/depositphotos_546872994-stock-illustration-lavatory-bowl-line-icon-for.jpg" width="40" height="40"> <img src="https://thumbs.dreamstime.com/b/%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D1%85-%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2-%D0%B6%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%BB%D0%B5%D0%B4%D1%8B-%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-157017318.jpg" width="40" height="40"><img src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" width="40" height="40"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"><strong>Тип: </strong>Купе</td>
+			<td class="leftcol"  align="left"><strong>Класс: </strong>2А</td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle">1500 руб.</td> 
+		<td valign="middle"><button id="buyumag">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Узнайте расписание движения пассажирских поездов РЖД из Уфы в Магнитогорск. Будьте внимательны, расписание может измениться. На этой странице вы видите актуальное расписание движения поездов в 2022 году. <a href="https://www.tutu.ru/rzd/" >Подробнее о покупке билетов РЖД</a>
+	</div>
+	<h3>Уфа - Москва</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"  align="left"><h2>00:24</h2>Уфа</td>
+			<td class="leftcol"  align="left"><h2>04:10</h2>Магнитогорск</td>
+			<td class="leftcol">1 д 3 ч 46 м</td>
+			<td class="leftcol"><img src="https://thumbs.dreamstime.com/b/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80-%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D0%B0-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D1%80%D0%B8%D1%81%D1%83%D0%BD%D0%BE%D0%BA-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D1%8B-164887379.jpg" width="40" height="40"><img src="https://st.depositphotos.com/62933612/54687/v/600/depositphotos_546872994-stock-illustration-lavatory-bowl-line-icon-for.jpg" width="40" height="40"> <img src="https://thumbs.dreamstime.com/b/%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D1%85-%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2-%D0%B6%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%BB%D0%B5%D0%B4%D1%8B-%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-157017318.jpg" width="40" height="40"><img src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" width="40" height="40"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"><strong>Тип: </strong>Купе</td>
+			<td class="leftcol"  align="left"><strong>Класс: </strong>2K</td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle">3700 руб.</td> 
+		<td valign="middle"><button id="buyumos">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Узнайте расписание движения пассажирских поездов РЖД из Уфы в Москва. Будьте внимательны, расписание может измениться. На этой странице вы видите актуальное расписание движения поездов в 2022 году. <a href="https://www.tutu.ru/rzd/" >Подробнее о покупке билетов РЖД</a>
+	</div>
+	<h3>Магнитогорск - Уфа</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"  align="left"><h2>08:45</h2>Магнитогорск</td>
+			<td class="leftcol"  align="left"><h2>17:35</h2>Уфа</td>
+			<td class="leftcol">8 ч 50 м</td>
+			<td class="leftcol"><img src="https://st.depositphotos.com/62933612/54687/v/600/depositphotos_546872994-stock-illustration-lavatory-bowl-line-icon-for.jpg" width="40" height="40"> <img src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" width="40" height="40"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"><strong>Тип: </strong>Плац</td>
+			<td class="leftcol"  align="left"><strong>Класс: </strong>2P</td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle">1300 руб.</td> 
+		<td valign="middle"><button id="buymagu">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Узнайте расписание движения пассажирских поездов РЖД из Магнитогорск в Уфа. Будьте внимательны, расписание может измениться. На этой странице вы видите актуальное расписание движения поездов в 2022 году. <a href="https://www.tutu.ru/rzd/" >Подробнее о покупке билетов РЖД</a>
+	</div>
+	<h3>Уфа - Санкт-Петербург</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"  align="left"><h2>20:45</h2>Уфа</td>
+			<td class="leftcol"  align="left"><h2>23:10</h2>Санкт-Петербург</td>
+			<td class="leftcol">2 д 2 ч 25 м</td>
+			<td class="leftcol"><img src="https://thumbs.dreamstime.com/b/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80-%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D0%B0-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D1%80%D0%B8%D1%81%D1%83%D0%BD%D0%BE%D0%BA-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D1%8B-164887379.jpg" width="40" height="40"><img src="https://st.depositphotos.com/62933612/54687/v/600/depositphotos_546872994-stock-illustration-lavatory-bowl-line-icon-for.jpg" width="40" height="40"> <img src="https://thumbs.dreamstime.com/b/%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D1%85-%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2-%D0%B6%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%BB%D0%B5%D0%B4%D1%8B-%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-157017318.jpg" width="40" height="40"><img src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" width="40" height="40"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"><strong>Тип: </strong>Купе</td>
+			<td class="leftcol"  align="left"><strong>Класс: </strong>2К</td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle">5300 руб.</td> 
+		<td valign="middle"><button id="buyusan">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Узнайте расписание движения пассажирских поездов РЖД из Уфы в Санкт-Петербург. Будьте внимательны, расписание может измениться. На этой странице вы видите актуальное расписание движения поездов в 2022 году. <a href="https://www.tutu.ru/rzd/" >Подробнее о покупке билетов РЖД</a>
+	</div>
+	<h3>Санкт-Петербург - Уфа</h3>
+	<div><table width="100%" cellspacing="0" cellpadding="0">
+		<tr> 
+			<td class="leftcol"  align="left"><h2>17:45</h2>Санкт-Петербург</td>
+			<td class="leftcol"  align="left"><h2>20:10</h2>Уфа</td>
+			<td class="leftcol">2 д 2 ч 25 м</td>
+			<td class="leftcol"><img src="https://thumbs.dreamstime.com/b/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80-%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B8-%D0%BA%D0%BE%D0%BD%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B5%D1%80%D0%B0-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D1%80%D0%B8%D1%81%D1%83%D0%BD%D0%BE%D0%BA-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D0%B9-%D1%84%D0%BE%D1%80%D0%BC%D1%8B-164887379.jpg" width="40" height="40"><img src="https://st.depositphotos.com/62933612/54687/v/600/depositphotos_546872994-stock-illustration-lavatory-bowl-line-icon-for.jpg" width="40" height="40"> <img src="https://thumbs.dreamstime.com/b/%D0%B8%D0%BA%D0%BE%D0%BD%D0%BA%D0%B0-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D1%85-%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2-%D0%B6%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D1%85-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D0%BF%D0%BB%D0%BE%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%BB%D0%B5%D0%B4%D1%8B-%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-157017318.jpg" width="40" height="40"><img src="https://png.pngtree.com/png-vector/20190725/ourlarge/pngtree-vector-star-icon-png-image_1577370.jpg" width="40" height="40"></td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr></tr>
+		<tr></tr>
+		<tr> 
+			<td class="leftcol"  align="left"><strong>Тип: </strong>Купе</td>
+			<td class="leftcol"  align="left"><strong>Класс: </strong>2К</td>
+			<td class="leftcol"></td>
+			<td class="leftcol"></td>
+		</tr>
+		<tr>
+		<td class="leftcol" valign="middle">1300 руб.</td> 
+		<td valign="middle"><button id="buysanu">Купить</button></td>
+		</tr>
+	</table>
+	<hr></hr>Узнайте расписание движения пассажирских поездов РЖД из Санкт-Петербург в Уфа. Будьте внимательны, расписание может измениться. На этой странице вы видите актуальное расписание движения поездов в 2022 году. <a href="https://www.tutu.ru/rzd/" >Подробнее о покупке билетов РЖД</a>
+	</div>
+	
+</div>
+<div id="dialog-form">
+  <form>
+    <fieldset>
+		<h4>ФИО (как в паспорте) <input type="text" id="fio" style = "ui-textfield"> </br> </h4>
+		<h4>Количество мест
+		<select name="minbeds" id="minbeds">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+		</select> </h4>
+		<h4><div id="slider"> </br> </h4>
+		<h4>Выбрать дату поездки <input type="text" id="datepicker" style = "ui-textfield"></br> </h4>
+		<img src="http://vokzal.ru/blog/wp-content/uploads/2014/12/2014-12-09-vokzal-01.jpg" width="400" height="300">
+		<h4>Вагон
+		<select name="town" id="town">
+			<option>10</option>
+			<option>11</option>
+			<option>13</option>
+		</select> </br> </h4>
+		<h4>Место
+		<select name="town" id="town">
+			<option>7</option>
+			<option>8</option>
+			<option>10</option>
+			<option>13</option>
+			<option>14</option>
+			<option>25</option>
+		</select> </br> </h4>
+		<h4>Email <input id="autocomplete"> </br> </h4>
+		<h4>Промокод <input id="card" type="text" style = "ui-textfield" > </br> </h4>
+		<h4>Итоговая цена <input type="text" id = "result" style = "ui-textfield" readonly> </br> </h4>
+	</fieldset>
+  </form>
+</div>
+<div id="dialog-confirm" title="Оформить покупку?">
+    <fieldset>
+		<p>Вы уверены в правильности указаных вами данных?</p>
+	</fieldset>
+</div>
+<div id="thankyou" title="Спасибо за заказ!">
+    <fieldset>
+		<p>Счастливого пути!</p>
+	</fieldset>
+</div>
+<div id="becareful" title="Проверьте правильность данных">
+    <fieldset>
+		<p>Проверьте правильность заполнения полей</p>
+	</fieldset>
+</div>
+<script src="external/jquery/jquery.js"></script>
+<script src="jquery-ui.js"></script>
+<script>
+var price;
+$( "#accordion" ).accordion({collapsible: true});
+$( "#buyumag" ).button()
+		.click(function(event){
+			price = 1500;
+			$( "#result" ).val(1500);
+			$( "#tempname" ).val("Покупка билета");
+			$( "#dialog-form" ).dialog("option","title","Покупка билета");
+			$( "#dialog-form" ).dialog( "open" );
+		});
+$( "#buyumos" ).button()
+		.click(function(){
+			price = 3700;
+			$( "#result" ).val(10000);
+			$( "#dialog-form" ).dialog("option","title","Покупка билета");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+$( "#buymagu" ).button()
+		.click(function(){
+			price = 1300;
+			$( "#result" ).val(5000);
+			$( "#dialog-form" ).dialog("option","title","Покупка билета");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+$( "#buyusan" ).button()
+		.click(function(){
+			price = 5300;
+			$( "#result" ).val(5000);
+			$( "#dialog-form" ).dialog("option","title","Покупка билета");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+$( "#buysanu" ).button()
+		.click(function(){
+			price = 1300;
+			$( "#result" ).val(5000);
+			$( "#dialog-form" ).dialog("option","title","Покупка билета");
+			$( "#dialog-form" ).dialog( "open" );
+        });
+	$('#datepicker').datepicker({
+	dateFormat : "dd.mm.yy",
+	minDate: new Date($('#hiddendelivdate').val()),
+	monthNames : ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+	dayNamesMin : ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+});
+	$( "#card" ).tooltip();
+	$( "#dialog-form" ).dialog({
+    autoOpen: false,
+    height: 550,
+    width: 500,
+    modal: true,
+    buttons: {
+        "Оформить": function() {
+			if ($('#fio').val() == '' || $('#datepicker').val() == '' || $('#autocomplete').val() == '' || $('#card').val() == ''){
+				$( "#becareful" ).dialog("open");
+			}
+			else {
+				$( "#dialog-confirm" ).dialog("open");
+			}
+        }
+		},
+		close : function(event, ui) {
+			$('#fio').val('');
+			$('#datepicker').val('');
+			$('#autocomplete').val('');
+			$('#card').val('');
+			slider.slider( "value", 0);
+			select[ 0 ].selectedIndex = 0;
+		}
+    });
+	$( "#town" ).selectmenu();
+	var select = $( "#minbeds" )
+	.on( "change", function() {
+      slider.slider( "value", this.selectedIndex + 1 );
+		$( "#result" ).val(((this.selectedIndex+1)*price));
+    });
+	var slider = $( "#slider" ).slider({
+		min: 1,
+		max: 4,
+		range: "min",
+		value: select[ 0 ].selectedIndex + 1,
+		  slide: function( event, ui ) {
+			select[ 0 ].selectedIndex = ui.value - 1;
+			$( "#result" ).val((ui.value*price));
+		  }
+	});
+	var availableTags = [
+		"ул. Пушкина, д. Колотушкина"
+	];
+	$( "#autocomplete" ).autocomplete({
+		source: availableTags
+	});
+		$( "#dialog-confirm" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Купить билет": function() {
+						$( this ).dialog( "close" );
+							$( "#dialog-form" ).dialog( "close");
+							$( "#thankyou" ).dialog("open");
+					},
+					"Нужно перепроверить": function() {
+						$( this ).dialog( "close" );
+						$( "#dialog-form" ).dialog( "close");
+					}
+				}
+			});
+			$( "#thankyou" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Закрыть": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+			$( "#becareful" ).dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+					"Закрыть": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+</script>
+</body>
+</html>
